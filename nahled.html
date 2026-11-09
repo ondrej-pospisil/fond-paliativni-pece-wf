@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Wireframe fondu · desktop a iPhone</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{display:flex;flex-direction:column;overflow:hidden;background:#E8E8E5;color:#151515;font:14px/1.4 -apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+  button,select{font:inherit;color:inherit;border:0;background:none;cursor:pointer}
+  /* lišta */
+  .bar{flex:none;display:flex;align-items:center;gap:16px;height:60px;padding:0 20px;background:#151515;color:#e9e9e6}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:600;white-space:nowrap}.brand i{display:grid;place-items:center;width:30px;height:30px;border-radius:8px;background:#2a2a29;font:600 9px/1 -apple-system,sans-serif;letter-spacing:.08em;color:#9a9a96;font-style:normal}
+  .brand small{display:block;font-size:11px;font-weight:500;color:#8f8f8b}
+  .pager{display:flex;align-items:center;gap:4px;margin-left:24px;min-width:0}
+  .pager button{display:grid;place-items:center;width:36px;height:36px;border-radius:9px;color:#d6d6d3}.pager button:hover{background:#2a2a29}
+  .pager svg{width:16px;height:16px}
+  select{height:36px;min-width:0;max-width:340px;padding:0 34px 0 12px;border-radius:9px;background:#232322 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%23aaa' stroke-width='1.4'/%3E%3C/svg%3E") right 12px center no-repeat;color:#fff;appearance:none;font-weight:500}
+  select option,select optgroup{color:#151515;background:#fff}
+  .tools{display:flex;align-items:center;gap:14px;margin-left:auto}
+  .seg{display:inline-flex;padding:3px;border-radius:10px;background:#232322}
+  .seg button{display:flex;align-items:center;gap:6px;height:30px;padding:0 12px;border-radius:7px;font-size:13px;font-weight:500;color:#bdbdb9;white-space:nowrap}.seg button svg{width:15px;height:15px}
+  .seg button.on{background:#fff;color:#151515}
+  .toggle{display:flex;align-items:center;gap:8px;font-size:13px;color:#bdbdb9;cursor:pointer;white-space:nowrap}
+  .toggle input{appearance:none;width:30px;height:18px;border-radius:9px;background:#3a3a39;position:relative;cursor:pointer;transition:background .2s}.toggle input::after{content:"";position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;background:#fff;transition:transform .2s}.toggle input:checked{background:#5d5d5a}.toggle input:checked::after{transform:translateX(12px)}
+  a.open{display:flex;align-items:center;gap:6px;height:32px;padding:0 12px;border:1px solid #3a3a39;border-radius:9px;font-size:13px;color:#e9e9e6;text-decoration:none;white-space:nowrap}a.open:hover{border-color:#777}
+  /* scéna */
+  .stage{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;gap:40px;padding:28px;background-image:radial-gradient(#d3d3cf 1px,transparent 1px);background-size:20px 20px}
+  .dev{display:none;flex-direction:column;align-items:center;gap:14px;flex:none}
+  .both .dev,.desktop .dev-d,.mobile .dev-m{display:flex}
+  .cap{font-size:12px;font-weight:500;color:#6e6e6b;letter-spacing:.02em}.cap b{color:#151515;font-weight:600}
+  /* desktop v okně prohlížeče */
+  .win{position:relative;flex:none;border-radius:12px;overflow:hidden;background:#fff;box-shadow:0 1px 0 rgba(0,0,0,.05),0 30px 60px -20px rgba(0,0,0,.35),0 0 0 1px rgba(0,0,0,.08)}
+  .chrome{position:absolute;left:0;top:0;width:1440px;height:44px;transform-origin:0 0;display:flex;align-items:center;gap:16px;padding:0 16px;background:#F3F3F1;border-bottom:1px solid #e1e1de}
+  .dots{display:flex;gap:8px}.dots i{width:12px;height:12px;border-radius:50%;background:#dcdcd8}
+  .url{flex:1;max-width:620px;margin:0 auto;height:28px;display:flex;align-items:center;justify-content:center;gap:8px;border-radius:8px;background:#fff;border:1px solid #e1e1de;font-size:13px;color:#6e6e6b}.url svg{width:12px;height:12px}
+  .win iframe{position:absolute;left:0;border:0;transform-origin:0 0;width:1440px;height:900px;background:#fff}
+  /* iPhone */
+  .phone{position:relative;flex:none}
+  .ph-body{position:absolute;left:0;top:0;width:417px;height:876px;transform-origin:0 0;padding:12px;border-radius:66px;background:#1b1b1b;box-shadow:inset 0 0 0 2px #3a3a39,0 30px 60px -20px rgba(0,0,0,.45)}
+  .ph-body::before,.ph-body::after{content:"";position:absolute;width:4px;border-radius:2px;background:#2a2a29}
+  .ph-body::before{left:-3px;top:180px;height:64px;box-shadow:0 84px 0 #2a2a29}.ph-body::after{right:-3px;top:220px;height:96px}
+  .screen{position:relative;width:393px;height:852px;border-radius:54px;overflow:hidden;background:#fff}
+  .status{position:absolute;left:0;right:0;top:0;height:54px;z-index:2;display:flex;align-items:center;justify-content:space-between;padding:6px 34px 0 46px;background:#fff;font:600 16px/1 -apple-system,sans-serif}
+  .island{position:absolute;left:50%;top:11px;width:124px;height:36px;margin-left:-62px;border-radius:20px;background:#000}
+  .sys{display:flex;gap:6px;align-items:center}.sys i{display:block;background:#151515;border-radius:2px}
+  .home{position:absolute;left:50%;bottom:8px;z-index:2;width:136px;height:5px;margin-left:-68px;border-radius:3px;background:#151515;opacity:.85;pointer-events:none}
+  .screen iframe{position:absolute;left:0;top:54px;width:393px;height:798px;border:0;background:#fff}
+  .hint{position:fixed;left:50%;bottom:14px;transform:translateX(-50%);padding:6px 12px;border-radius:999px;background:rgba(21,21,21,.85);color:#e9e9e6;font-size:12px;pointer-events:none;opacity:0;transition:opacity .3s}.hint.show{opacity:1}
+  @media (max-width:980px){.brand small,.toggle span,a.open span{display:none}.pager{margin-left:8px}}
+</style>
+</head>
+<body class="both">
+<div class="bar">
+  <div class="brand"><i>LOGO</i><div>Wireframe webu fondu<small>Desktop a iPhone vedle sebe</small></div></div>
+  <div class="pager">
+    <button type="button" id="prev" aria-label="Předchozí stránka" title="Předchozí stránka (←)"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M10 3L5 8l5 5"/></svg></button>
+    <select id="page" aria-label="Stránka"></select>
+    <button type="button" id="next" aria-label="Další stránka" title="Další stránka (→)"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 3l5 5-5 5"/></svg></button>
+  </div>
+  <div class="tools">
+    <div class="seg" role="group" aria-label="Zobrazení">
+      <button data-m="both" class="on"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="1" y="3" width="10" height="8" rx="1"/><rect x="12" y="4" width="3.4" height="8" rx="1"/></svg>Vedle sebe</button>
+      <button data-m="desktop"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="1.5" y="2.5" width="13" height="9" rx="1"/><path d="M5 14h6"/></svg>Desktop</button>
+      <button data-m="mobile"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="4.5" y="1.5" width="7" height="13" rx="1.5"/></svg>iPhone</button>
+    </div>
+    <label class="toggle" id="synclab"><input type="checkbox" id="sync" checked><span>Scrollovat spolu</span></label>
+    <a class="open" id="open" href="index.html" target="_blank"><span>Otevřít stránku</span><svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 10l7-7M7 3h6v6"/></svg></a>
+  </div>
+</div>
+<div class="stage" id="stage">
+  <div class="dev dev-d">
+    <div class="win" id="win"><div class="chrome" id="chrome"><div class="dots"><i></i><i></i><i></i></div><div class="url"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="7" width="10" height="7" rx="1.5"/><path d="M5.5 7V5a2.5 2.5 0 015 0v2"/></svg><span id="url">fondpaliativnipece.cz</span></div><div style="width:52px"></div></div><iframe id="d" title="Desktop"></iframe></div>
+    <div class="cap"><b>Desktop</b> · 1440 px</div>
+  </div>
+  <div class="dev dev-m">
+    <div class="phone" id="phone"><div class="ph-body" id="phb"><div class="screen">
+      <div class="status"><span>9:41</span><span class="island"></span><span class="sys"><i style="width:17px;height:11px;clip-path:polygon(0 100%,25% 100%,25% 70%,50% 70%,50% 40%,75% 40%,75% 10%,100% 10%,100% 100%)"></i><i style="width:25px;height:12px;border-radius:4px"></i></span></div>
+      <iframe id="m" title="iPhone"></iframe><div class="home"></div>
+    </div></div></div>
+    <div class="cap"><b>iPhone 15</b> · 393 px</div>
+  </div>
+</div>
+<div class="hint" id="hint"></div>
+<script>
+(function(){
+  var GROUPS=[
+    ['Hlavní',[['index.html','Úvod'],['aktuality.html','Aktuality'],['kontakt.html','Kontakt'],['hledat.html','Vyhledávání']]],
+    ['Pro žadatele',[['programy.html','Přehled programů'],['jak-to-probiha.html','Jak to probíhá a jak se připravit'],['program-specializacni-vzdelavani.html','Detail programu · Specializační vzdělávání'],['program-individualni-vzdelavani.html','Detail programu · Individuální vzdělávání'],['program-mspp-granty.html','Detail programu · MSPP granty'],['program-mspp-stipendia.html','Detail programu · MSPP stipendia'],['program-mentoring-instituci.html','Detail programu · Mentoring institucí'],['ukoncene-programy.html','Ukončené programy']]],
+    ['Pro dárce',[['pro-darce.html','Pro dárce']]],
+    ['Náš dopad',[['vysledky-a-mapa-podpory.html','Výsledky a mapa podpory'],['pribehy-podporenych.html','Příběhy podpořených'],['pribeh-ukazka.html','Detail příběhu']]],
+    ['O nás',[['poslani-a-vize.html','Poslání a vize'],['lide.html','Lidé'],['transparentnost-a-dokumenty.html','Transparentnost a dokumenty'],['pro-media.html','Pro média']]],
+    ['Šablony a ostatní',[['aktualita-mspp-4-rocnik.html','Detail aktuality'],['aktualita-marketa-cervenkova.html','Detail rozhovoru'],['ochrana-udaju.html','Ochrana osobních údajů'],['cookies.html','Cookies'],['404.html','Stránka 404']]]];
+  var PAGES=[].concat.apply([],GROUPS.map(function(g){return g[1];}));
+  var $=function(id){return document.getElementById(id);};
+  var sel=$('page'),d=$('d'),m=$('m'),stage=$('stage'),win=$('win'),chrome=$('chrome'),phone=$('phone'),phb=$('phb'),open=$('open'),sync=$('sync'),synclab=$('synclab'),hint=$('hint');
+  GROUPS.forEach(function(g){var og=document.createElement('optgroup');og.label=g[0];g[1].forEach(function(p){var o=document.createElement('option');o.value=p[0];o.textContent=p[1];og.appendChild(o);});sel.appendChild(og);});
+  var MODES={vedle:'both',desktop:'desktop',iphone:'mobile',mobil:'mobile'},NAMES={both:'vedle',desktop:'desktop',mobile:'iphone'};
+  var h=new URLSearchParams(location.hash.slice(1)),mode=MODES[h.get('m')]||'both',page=h.get('p')||'index.html';
+  function frames(){return mode==='both'?[d,m]:[mode==='mobile'?m:d];}
+  function save(){try{history.replaceState(null,'','#m='+NAMES[mode]+'&p='+page);}catch(e){}open.href=page;$('url').textContent='fondpaliativnipece.cz/'+(page==='index.html'?'':page.replace('.html',''));if(PAGES.some(function(p){return p[0]===page;}))sel.value=page;}
+  function layout(){
+    var r=stage.getBoundingClientRect(),W=r.width-56,H=r.height-56-28;
+    /* vedle sebe: iPhone je stejně vysoký jako okno desktopu, obě zařízení se vejdou do šířky dohromady */
+    var K=944/876,s,ps;
+    if(mode==='both'){s=Math.min((W-40)/(1440+417*K),H/944,1);ps=944*s/876;}
+    else if(mode==='mobile'){ps=Math.min(1,H/876,W/417);s=1;}
+    else{s=Math.min(W/1440,H/944,1);ps=1;}
+    var pw=417*ps;
+    phb.style.transform='scale('+ps+')';phone.style.width=pw+'px';phone.style.height=876*ps+'px';
+    win.style.width=1440*s+'px';win.style.height=944*s+'px';chrome.style.transform='scale('+s+')';
+    d.style.top=44*s+'px';d.style.transform='scale('+s+')';
+  }
+  function load(){frames().forEach(function(f){if(f.getAttribute('data-p')!==page){f.setAttribute('data-p',page);f.src=page;}});document.body.className=mode;synclab.style.display=mode==='both'?'':'none';[].forEach.call(document.querySelectorAll('.seg button'),function(b){b.classList.toggle('on',b.getAttribute('data-m')===mode);});save();layout();}
+  function go(p){page=p;load();}
+  function step(n){var i=PAGES.findIndex(function(p){return p[0]===page;});i=(i+n+PAGES.length)%PAGES.length;go(PAGES[i][0]);flash(PAGES[i][1]);}
+  function flash(t){hint.textContent=t;hint.classList.add('show');clearTimeout(flash.t);flash.t=setTimeout(function(){hint.classList.remove('show');},1200);}
+  sel.addEventListener('change',function(){go(sel.value);});
+  $('prev').addEventListener('click',function(){step(-1);});$('next').addEventListener('click',function(){step(1);});
+  document.addEventListener('keydown',function(e){if(e.target===sel)return;if(e.key==='ArrowLeft')step(-1);if(e.key==='ArrowRight')step(1);});
+  [].forEach.call(document.querySelectorAll('.seg button'),function(b){b.addEventListener('click',function(){mode=b.getAttribute('data-m');load();});});
+  function other(w){return w===d.contentWindow?m:d;}
+  window.addEventListener('message',function(e){
+    if(!e.data)return;
+    if(e.data.type==='nf-scroll'){if(mode==='both'&&sync.checked){try{other(e.source).contentWindow.postMessage({type:'nf-scroll-to',idx:e.data.idx,frac:e.data.frac},'*');}catch(x){}}return;}
+    if(e.data.type!=='nf-page')return;
+    var src=frames().filter(function(f){return f.contentWindow===e.source;})[0];if(!src)return;
+    page=e.data.page;src.setAttribute('data-p',page);
+    if(mode==='both'){var o=other(e.source);if(o.getAttribute('data-p')!==page){o.setAttribute('data-p',page);o.src=page;}}
+    save();});
+  /* stavový řádek iPhonu přebírá barvu toho, co je pod ním, jako v Safari */
+  var status=document.querySelector('.status');
+  function tint(){try{var doc=m.contentDocument,el=doc&&doc.elementFromPoint(20,1),c='';while(el&&el!==doc.documentElement){c=getComputedStyle(el).backgroundColor;if(c&&c!=='transparent'&&!/rgba\(.*,\s*0\)$/.test(c))break;el=el.parentElement;c='';}c=c||'rgb(255, 255, 255)';var v=c.match(/\d+/g).slice(0,3).map(Number),dark=(v[0]*299+v[1]*587+v[2]*114)/1000<128;status.style.background=c;status.style.color=dark?'#fff':'#151515';[].forEach.call(status.querySelectorAll('.sys i'),function(i){i.style.background=dark?'#fff':'#151515';});}catch(e){}}
+  m.addEventListener('load',function(){tint();try{m.contentWindow.addEventListener('scroll',tint,{passive:true});}catch(e){}});
+  window.addEventListener('resize',layout);load();
+})();
+</script>
+</body>
+</html>
